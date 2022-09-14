@@ -22,7 +22,8 @@ class Events
 
             $order = $event->getParameter('ENTITY');
 
-            $settingUserGroups = explode(',', Settings::get('user_groups'));
+            $settingUserGroupStr = Settings::get('user_groups');
+            $settingUserGroups = $settingUserGroupStr ? explode(',', $settingUserGroupStr) : [];
 
             $userInGroup = false;
 
