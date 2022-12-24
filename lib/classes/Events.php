@@ -82,7 +82,7 @@ class Events
         return $discount;
     }
 
-    public function appendScriptsToPage()
+    public static function appendScriptsToPage()
     {
         if (!defined('ADMIN_SECTION')) {
             if (Settings::get('switch_on') == 'Y' && Settings::get('show_popup_order_page') == 'Y'
