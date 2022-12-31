@@ -1,3 +1,3 @@
 <ul>
-<li>РСЃРїСЂР°РІР»РµРЅРёРµ Р±Р°РіР° СЃ СЃРѕР±С‹С‚РёРµРј appendScriptsToPage.</li>
+<li>Исправление бага с событием appendScriptsToPage.</li>
 </ul>
