@@ -40,7 +40,7 @@ class OrderMinPriceComponent extends \CBitrixComponent
 
     public function executeComponent()
     {
-        if (Settings::get('switch_on') != 'Y') {
+        if (!Settings::yes('switch_on')) {
             return false;
         }
 

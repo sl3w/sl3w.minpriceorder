@@ -18,6 +18,11 @@ class Settings
         Option::set(self::$module_id, $name, $value);
     }
 
+    public static function yes($name)
+    {
+        return self::get($name) == 'Y';
+    }
+
     public static function deleteAll()
     {
         Option::delete(self::$module_id);

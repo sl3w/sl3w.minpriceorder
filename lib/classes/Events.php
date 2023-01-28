@@ -16,7 +16,7 @@ class Events
             $minPrice = Settings::get('min_price', 0);
             $minPriceText = Settings::get('min_price_text');
 
-            if (Settings::get('switch_on') != 'Y' || !$minPrice || !$minPriceText) {
+            if (!Settings::yes('switch_on') || !$minPrice || !$minPriceText) {
                 return $result;
             }
 
@@ -47,11 +47,11 @@ class Events
             if ($order instanceof \Bitrix\Sale\Order) {
                 $price = $order->getPrice();
 
-                if (Settings::get('plus_discount') == 'Y') {
+                if (Settings::yes('plus_discount')) {
                     $price += self::getDiscount($order);
                 }
 
-                if (Settings::get('minus_delivery') == 'Y') {
+                if (Settings::yes('minus_delivery')) {
                     $price -= $order->getDeliveryPrice();
                 }
 
@@ -85,7 +85,7 @@ class Events
     public static function appendScriptsToPage()
     {
         if (!defined('ADMIN_SECTION')) {
-            if (Settings::get('switch_on') == 'Y' && Settings::get('show_popup_order_page') == 'Y'
+            if (Settings::yes('switch_on') && Settings::yes('show_popup_order_page')
                 && Settings::get('min_price', 0) && Settings::get('min_price_text')) {
 
                 Asset::getInstance()->addJs('/bitrix/js/' . Settings::getModuleId() . '/script.min.js');
