@@ -8,4 +8,4 @@ $APPLICATION->IncludeComponent("sl3w:order.minprice", "");
 ```
 В настройках компонента можно задать текст сообщения (по умолчанию будет использоваться текст из модуля).
 
-Ссылка на модуль в Маркетплейсе: http://marketplace.1c-bitrix.ru/solutions/sl3w.minpriceorder/
+Ссылка на модуль в Маркетплейсе: https://marketplace.1c-bitrix.ru/solutions/sl3w.minpriceorder/
