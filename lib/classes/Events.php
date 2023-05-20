@@ -45,6 +45,29 @@ class Events
             }
 
             if ($order instanceof \Bitrix\Sale\Order) {
+
+                $deliveriesToCheckStr = Settings::get('delivery_types');
+                $deliveriesToCheck = $deliveriesToCheckStr ? explode(',', $deliveriesToCheckStr) : [];
+
+                $deliveriesChecked = false;
+
+                if (!empty($deliveriesToCheck)) {
+                    $orderDeliveries = $order->getDeliveryIdList();
+
+                    foreach ($orderDeliveries as $orderDelivery) {
+                        if (in_array($orderDelivery, $deliveriesToCheck)) {
+                            $deliveriesChecked = true;
+                            break;
+                        }
+                    }
+                } else {
+                    $deliveriesChecked = true;
+                }
+
+                if (!$deliveriesChecked) {
+                    return $result;
+                }
+
                 $price = $order->getPrice();
 
                 if (Settings::yes('plus_discount')) {

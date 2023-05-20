@@ -12,12 +12,20 @@ $request = HttpApplication::getInstance()->getContext()->getRequest();
 $module_id = htmlspecialcharsbx($request['mid'] != '' ? $request['mid'] : $request['id']);
 
 Loader::includeModule($module_id);
+Loader::includeModule('sale');
 
 $arUserGroups = [];
 $dbGroups = CGroup::GetList($b = 'ID', $o = 'ASC', ['ACTIVE' => 'Y']);
 
 while ($arGroup = $dbGroups->GetNext()) {
     $arUserGroups[$arGroup['ID']] = '[' . $arGroup['ID'] . '] ' . $arGroup['NAME'];
+}
+
+$arDeliveryTypes = [];
+$deliveries = \Bitrix\Sale\Delivery\Services\Table::getList(['select' => ['ID', 'NAME']]);
+
+while ($delivery = $deliveries->fetch()) {
+    $arDeliveryTypes[$delivery['ID']] = '[' . $delivery['ID'] . '] ' . $delivery['NAME'];
 }
 
 $aTabs = [
@@ -69,7 +77,18 @@ $aTabs = [
                 '',
                 ['multiselectbox', $arUserGroups]
             ],
+            [
+                'delivery_types',
+                Loc::getMessage('SL3W_MINPRICE_ORDER_OPTIONS_DELIVERY_TYPES'),
+                '',
+                ['multiselectbox', $arDeliveryTypes]
+            ],
         ]
+    ],
+    [
+        'DIV' => 'support',
+        'TAB' => Loc::getMessage('SL3W_MINPRICE_ORDER_SUPPORT_TAB_NAME'),
+        'TITLE' => Loc::getMessage('SL3W_MINPRICE_ORDER_SUPPORT_TAB_NAME'),
     ]
 ];
 
@@ -94,6 +113,26 @@ $tabControl->Begin();
                 __AdmSettingsDrawList($module_id, $aTab['OPTIONS']);
             }
         }
+
+        $tabControl->BeginNextTab();
+        ?>
+        <p>
+            <?= Loc::getMessage('SL3W_MINPRICE_ORDER_SUPPORT_TAB_TEXT') ?>
+        </p>
+
+        <iframe
+            src="https://yoomoney.ru/quickpay/shop-widget?writer=seller&default-sum=100&button-text=12&payment-type-choice=on&successURL=&quickpay=shop&account=410014134044507&targets=%D0%9F%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4%20%D0%BF%D0%BE%20%D0%BA%D0%BD%D0%BE%D0%BF%D0%BA%D0%B5&"
+            width="423" height="222" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
+
+        <p>
+            <?= Loc::getMessage('SL3W_MINPRICE_ORDER_SUPPORT_TAB_TEXT2') ?>
+        </p>
+        <p>
+            <?= Loc::getMessage('SL3W_MINPRICE_ORDER_SUPPORT_TAB_TEXT3') ?>
+        </p>
+
+        <?php
+        __AdmSettingsDrawRow($module_id, ['note' => Loc::getMessage('SL3W_MINPRICE_ORDER_SUPPORT_NOTE')]);
 
         $tabControl->Buttons();
         ?>
